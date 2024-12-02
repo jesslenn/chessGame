@@ -8,5 +8,28 @@ public class Bishop extends Piece {
         if (newPosition.equals(this.position)) {
             return false;
         }
+
+        int rowDiff = Math.abs(position.getRow() - newPosition.getRow());
+        int colDiff = Math.abs(position.getColumn() - newPosition.getColumn());
+        if (rowDiff != colDiff) {
+            return false;
+        }
+
+        //what direction are we going in?
+        int rowStep = newPosition.getRow() > position.getRow() ? 1 : -1;
+        int colStep = newPosition.getColumn() > position.getColumn() ? 1 : -1;
+        for (int i = 1; i < rowDiff; i++) {
+            if(board[position.getRow() + i * rowStep][position.getColumn() + i * colStep] != null) {
+                return false;
+            }
+        }
+
+        Piece destinationPiece = board[newPosition.getRow()][newPosition.getColumn()];
+        if (destinationPiece == null) {
+            return true;
+        } else if (destinationPiece.getColor() != this.getColor()) {
+            return true;
+        }
+        return false;
     }
 }
