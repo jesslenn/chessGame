@@ -8,5 +8,21 @@ public class Knight extends Piece {
         if (newPosition.equals(this.position)) {
             return false;
         }
+
+        int rowDiff = Math.abs(this.position.getRow()) - newPosition.getRow();
+        int colDiff = Math.abs(this.position.getColumn() - newPosition.getColumn());
+
+        boolean isValidMove = (rowDiff == 2 && colDiff == 1) || (rowDiff == 1 && colDiff == 2);
+
+        if (!isValidMove) {
+            return false;
+        }
+
+        Piece targetPiece = board[newPosition.getRow()][newPosition.getColumn()];
+        if (targetPiece == null) {
+            return true;
+        } else {
+            return targetPiece.getColor() != this.getColor();
+        }
     }
 }
