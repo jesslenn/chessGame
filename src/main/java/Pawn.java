@@ -5,6 +5,10 @@ public class Pawn extends Piece {
 
     @Override
     public boolean isValidMove(Position newPosition, Piece[][] board) {
+        if (newPosition.equals(this.position)) {
+            return false;
+        }
+
         int forwardDirection = color == PieceColor.WHITE ? -1 : 1;
         int rowDiff = (newPosition.getRow() - position.getRow()) * forwardDirection;
         int colDiff = (newPosition.getColumn() - position.getColumn());

@@ -5,11 +5,9 @@ public class Rook extends Piece {
 
     @Override
     public boolean isValidMove(Position newPosition, Piece[][] board) {
-        //we need to know what direction to move in and the difference in positions
-        int forwardDirection = color == PieceColor.WHITE ? -1 : 1;
-        int rowDiff = (newPosition.getRow() - position.getRow()) * forwardDirection;
-        int colDiff = (newPosition.getColumn() - position.getColumn());
-
+        if (newPosition.equals(this.position)) {
+            return false;
+        }
         //if moving straight down the row
         if (position.getRow() == newPosition.getRow()) {
             //starting at the next available square for this movement
