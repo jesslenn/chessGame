@@ -87,4 +87,8 @@ public class ChessGame {
 
         return inCheck;
     }
+
+    public Chessboard getBoard() {
+        return this.board;
+    }
 }
