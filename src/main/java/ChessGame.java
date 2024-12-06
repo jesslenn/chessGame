@@ -1,9 +1,19 @@
 public class ChessGame {
     private Chessboard board;
     private boolean whiteTurn = true;
+    private Position selectedPosition;
 
     public ChessGame() {
         this.board = new Chessboard();
+    }
+
+    public Chessboard getBoard() {
+        return this.board;
+    }
+
+    public void resetGame() {
+        this.board = new Chessboard();
+        this.whiteTurn = true;
     }
 
     public boolean makeMove(Position start, Position end) {
@@ -88,7 +98,27 @@ public class ChessGame {
         return inCheck;
     }
 
-    public Chessboard getBoard() {
-        return this.board;
+    public PieceColor getCurrentPlayerColor() {
+        return whiteTurn ? PieceColor.WHITE : PieceColor.BLACK;
+    }
+
+    public boolean isPieceSelected() {
+        return selectedPosition != null;
+    }
+
+    public boolean handleSquareSelection(int row, int col) {
+        if (selectedPosition == null) {
+            Piece selectedPiece = board.getPiece(row, col);
+            if (selectedPosition != null && selectedPiece.getColor() == (whiteTurn ? PieceColor.WHITE
+                : PieceColor.BLACK)) {
+                selectedPosition = new Position(row, col);
+                return false;
+            }
+        } else {
+            boolean moveMade = makeMove(selectedPosition, new Position(row, col));
+            selectedPosition = null;
+            return moveMade;
+        }
+        return false;
     }
 }
