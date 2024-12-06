@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 class ChessGameGUI extends JFrame {
@@ -63,13 +64,24 @@ class ChessGameGUI extends JFrame {
                     squares[row][col].clearPieceSymbol();
                 }
             }
-
         }
      }
 
-     private void handleSquareClick(int row, int col) {}
+     private void handleSquareClick(int row, int col) {
+        if (game.handleSquareSelection(row, col)) {
+            refreshBoard();
+            checkGameState();
+        }
+     }
 
-     private void checkGameState() {}
+     private void checkGameState() {
+        PieceColor currentPlayer = game.getCurrentPlayerColor();
+        boolean inCheck = game.isInCheck(currentPlayer);
+
+        if (inCheck) {
+            JOptionPane.showMessageDialog(this, currentPlayer + " is in check!");
+        }
+     }
 
      public static void main(String[] args) {
          SwingUtilities.invokeLater(ChessGameGUI::new);
