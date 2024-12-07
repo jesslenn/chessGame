@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class ChessGame {
     private Chessboard board;
     private boolean whiteTurn = true;
@@ -121,4 +123,7 @@ public class ChessGame {
         }
         return false;
     }
+
+    protected List<Position> getLegalMovesForPieceAt(Position position){
+    };
 }

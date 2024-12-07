@@ -3,8 +3,12 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -28,6 +32,7 @@ class ChessGameGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(8, 8));
         initializeBoard();
+        addGameResetOption();
         pack();
         setVisible(true);
     }
@@ -68,10 +73,16 @@ class ChessGameGUI extends JFrame {
      }
 
      private void handleSquareClick(int row, int col) {
-        if (game.handleSquareSelection(row, col)) {
+        boolean moveResult = game.handleSquareSelection(row, col);
+        clearHightlights();
+        if (moveResult) {
             refreshBoard();
             checkGameState();
+            checkGameOver();
+        } else if (game.isPieceSelected()) {
+            highlightLegalMoves(new Position(row, col));
         }
+        refreshBoard();
      }
 
      private void checkGameState() {
@@ -80,6 +91,36 @@ class ChessGameGUI extends JFrame {
 
         if (inCheck) {
             JOptionPane.showMessageDialog(this, currentPlayer + " is in check!");
+        }
+     }
+
+     private void addGameResetOption() {
+        JMenuBar menuBar = new JMenuBar();
+        JMenu gameMenu = new JMenu("Game Options");
+        JMenuItem resetItem = new JMenuItem("Reset");
+        resetItem.addActionListener(e -> resetGame());
+        gameMenu.add(resetItem);
+        menuBar.add(gameMenu);
+        setJMenuBar(menuBar);
+     }
+
+     private void resetGame(){
+         game.resetGame();
+         refreshBoard();
+     }
+     private void highlightLegalMoves(Position position) {
+        List<Position> legalMoves = game.getLegalMovesForPieceAt(position);
+        for(Position move : legalMoves) {
+            squares[move.getRow()][move.getColumn()].setBackground(Color.CYAN);
+        }
+     }
+
+     private void clearHightlights() {
+        for(int row = 0; row < 8; row++){
+            for(int col = 0; col < 8; col++) {
+                squares[row][col].setBackground((row + col) % 2 == 0 ?
+                    Color.LIGHT_GRAY : new Color(205, 133, 63));
+            }
         }
      }
 
