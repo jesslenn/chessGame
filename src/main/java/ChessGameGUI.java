@@ -108,6 +108,7 @@ class ChessGameGUI extends JFrame {
          game.resetGame();
          refreshBoard();
      }
+
      private void highlightLegalMoves(Position position) {
         List<Position> legalMoves = game.getLegalMovesForPieceAt(position);
         for(Position move : legalMoves) {
@@ -120,6 +121,18 @@ class ChessGameGUI extends JFrame {
             for(int col = 0; col < 8; col++) {
                 squares[row][col].setBackground((row + col) % 2 == 0 ?
                     Color.LIGHT_GRAY : new Color(205, 133, 63));
+            }
+        }
+     }
+
+     private void checkGameOver() {
+        if (game.isCheckmate(game.getCurrentPlayerColor())) {
+            int response = JOptionPane.showConfirmDialog(this, "Checkmate! Would you like to play again?", "Game Over",
+                JOptionPane.YES_NO_OPTION);
+            if (response == JOptionPane.YES_NO_OPTION) {
+                resetGame();
+            } else {
+                System.exit(0);
             }
         }
      }
