@@ -38,8 +38,8 @@ class ChessGameGUI extends JFrame {
     }
 
     private void initializeBoard() {
-     for (int row = 0; row < squares.length; row++) {
-         for (int col = 0; col < squares.length; row++) {
+     for (int row = 0; row < squares.length -1; row++) {
+         for (int col = 0; col < squares.length -1; col++) {
              final int finalRow = row;
              final int finalCol = col;
              ChessSquareComponent square = new ChessSquareComponent(row, col);
